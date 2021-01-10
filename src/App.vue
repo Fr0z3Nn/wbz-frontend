@@ -1,8 +1,9 @@
 <template>
   <v-app>
-
+<div>
 <MainPage/>
-
+  {{info}}
+</div>
   </v-app>
 </template>
 
@@ -14,8 +15,18 @@ export default {
   components: {MainPage,
   },
 
-  data: () => ({
+  /*data: () => ({
    //
-  }),
+  }),*/
+  data(){
+    return{
+      info:[]
+    }
+  },
+  mounted() {
+    this.axios
+    .get('http://localhost:9000/item')
+    .then(response => this.info = response.data)
+  }
 };
 </script>
