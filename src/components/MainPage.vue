@@ -8,7 +8,7 @@
       <v-app-bar-nav-icon @click="drawer = true" style="color: black"></v-app-bar-nav-icon>
 
       <v-spacer/>
-      <v-toolbar-title style="color: black">WBZ | ПЕТ ПРОЕКТ ДВУХ JAVA DEVELOPERS</v-toolbar-title>
+      <v-toolbar-title style="color: black">WBZ | ТУПА МАГАЗИН</v-toolbar-title>
       <v-spacer/>
 
     </v-toolbar>
