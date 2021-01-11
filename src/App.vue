@@ -2,57 +2,47 @@
   <v-app>
 <div>
 <MainPage/>
-  <v-simple-table dense>
-    <template v-slot:default>
-      <thead>
-      <tr>
-        <th class="text-center">
+  <v-container>
+    <v-row>
+      <v-col>
+        <v-text-field
+            label="Поиск"
+            outlined
+            dense
+        ></v-text-field>
+      </v-col>
+      <v-col
+          sm="1"
+          align="right">
+        <v-btn
+            color="primary"
+            fab
+            small
+            dark
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
+  </v-container>
 
-        </th>
-        <th class="text-center">
-          Название
-        </th>
-        <th class="text-center">
-          Описание
-        </th>
-        <th class="text-center">
-          Цена
-        </th>
-        <th class="text-center">
-          Действие
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr
-          v-for="item in info"
-          :key="item.name"
-      >
-        <td><img
-            src="https://cdn2.scratch.mit.edu/get_image/user/22140082_60x60.png">
-        </td>
-        <td class="text-center">{{ item.name }}</td>
-        <td class="text-center">{{ item.description }}</td>
-        <td class="text-center">{{ item.price }}</td>
-
-        <td>
-          <v-row
-              align="center"
-              justify="space-around"
-          >
-          <v-btn color="orange">
-            <v-icon left>
-              mdi-cart
-            </v-icon>
-            ADD TO CART
-          </v-btn>
-          </v-row>
-        </td>
-
-      </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
+  <template>
+    <v-data-table
+        :headers="headers"
+        :items="items"
+        :sort-by="['Название', 'Цена']"
+        :sort-desc="[false, true]"
+        multi-sort
+        class="elevation-1"
+    >
+      <template v-slot:item.image="{ item }">
+        <v-chip
+        >
+          <img :src=" item.image ">
+        </v-chip>
+      </template>
+    </v-data-table>
+  </template>
 </div>
   </v-app>
 </template>
@@ -70,13 +60,24 @@ export default {
   }),*/
   data(){
     return{
-      info:[]
+      items:[],
+      headers: [
+        {
+
+
+          sortable: false,
+          value: 'image',
+        },
+        { text: 'Название', value: 'name' },
+        { text: 'Описание', value: 'description', sortable: false },
+        { text: 'Цена', value: 'price' },
+      ]
     }
   },
   mounted() {
     this.axios
     .get('http://localhost:9000/item')
-    .then(response => this.info = response.data)
+    .then(response => this.items = response.data)
   }
 };
 </script>

@@ -13,6 +13,7 @@
 
     </v-toolbar>
 
+
     <v-navigation-drawer
         v-model="drawer"
         absolute
@@ -30,7 +31,6 @@
           <v-list-item >
             <v-avatar color="indigo"
                       size="68"
-
             >
 
               <img
