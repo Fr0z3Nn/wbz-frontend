@@ -1,8 +1,10 @@
 <template>
   <v-app>
 <div>
+
 <ToolBarAndLeftMenu/>
   <ShopTable/>
+
 </div>
   </v-app>
 </template>

@@ -8,7 +8,7 @@
       <v-app-bar-nav-icon @click="drawer = true" style="color: black"></v-app-bar-nav-icon>
 
       <v-btn icon>
-        <v-icon color="black" @click="dialogRegistration">mdi-account-circle</v-icon>
+        <v-icon color="black" @click="dialogRegistration = true">mdi-account-circle</v-icon>
       </v-btn>
 
       <v-spacer/>
@@ -18,18 +18,67 @@
     </v-toolbar>
 
 <!--ДИАЛОГ РЕГИСТРАЦИИ-->
-    <v-dialog v-model="dialogRegistration" max-width="500px" overlay-color="#CBF1F5">
-      <v-card>
-        <v-card-title class="headline">Вы уверены, что хотите удалить товар?</v-card-title>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text >НЕТ</v-btn>
-          <v-btn color="blue darken-1" text >ДА</v-btn>
-          <v-spacer></v-spacer>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <div>
+        <v-dialog
+            v-model="dialogRegistration"
+            max-width="600px"
+        >
 
+          <v-card>
+            <v-card-title>
+              <span class="headline">Вход / Регистрация</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col
+                      cols="12"
+                  >
+                    <v-text-field
+                        label="Имя*"
+                        required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12">
+                    <v-text-field
+                        label="Почта*"
+                        required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                        label="Пароль*"
+                        type="password"
+                        required
+                    ></v-text-field>
+                  </v-col>
+
+
+                </v-row>
+              </v-container>
+              <small>*обьязательные поля</small>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="dialogRegistration = false"
+              >
+                Закрыть
+              </v-btn>
+              <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="dialogRegistration = false"
+              >
+                Войти / Зарегистрироваться
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+    </div>
 <!--ЛЕВОЕ ВЫПАДАЮЩЕЕ МЕНЮ-->
     <v-navigation-drawer
         v-model="drawer"
@@ -89,9 +138,7 @@ export default {
     group: null,
   }),
   methods:{
-    accountDialog: function (){
-      this.dialogRegistration = true
-    }
+
   }
 
 };
