@@ -1,19 +1,19 @@
 <template>
   <v-app>
 <div>
-<MainPage/>
+<ToolBarAndLeftMenu/>
   <ShopTable/>
 </div>
   </v-app>
 </template>
 
 <script>
-import MainPage from './components/MainPage';
+import ToolBarAndLeftMenu from './components/ToolBarAndLeftMenu';
 import ShopTable from "@/components/ShopTable";
 
 export default {
   name: 'App',
-  components: {MainPage,ShopTable
+  components: {ToolBarAndLeftMenu,ShopTable
   },
 
   data: () => ({

@@ -7,13 +7,30 @@
     >
       <v-app-bar-nav-icon @click="drawer = true" style="color: black"></v-app-bar-nav-icon>
 
+      <v-btn icon>
+        <v-icon color="black" @click="dialogRegistration">mdi-account-circle</v-icon>
+      </v-btn>
+
       <v-spacer/>
       <v-toolbar-title style="color: black">WBZ | ТУПА МАГАЗИН</v-toolbar-title>
       <v-spacer/>
 
     </v-toolbar>
 
+<!--ДИАЛОГ РЕГИСТРАЦИИ-->
+    <v-dialog v-model="dialogRegistration" max-width="500px" overlay-color="#CBF1F5">
+      <v-card>
+        <v-card-title class="headline">Вы уверены, что хотите удалить товар?</v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text >НЕТ</v-btn>
+          <v-btn color="blue darken-1" text >ДА</v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
+<!--ЛЕВОЕ ВЫПАДАЮЩЕЕ МЕНЮ-->
     <v-navigation-drawer
         v-model="drawer"
         absolute
@@ -67,13 +84,14 @@ export default {
   name: "MainPage",
   data: () => ({
     //
+    dialogRegistration: false,
     drawer: false,
     group: null,
   }),
   methods:{
-    /*printMes: function (){
-      console.log("123123")
-    }*/
+    accountDialog: function (){
+      this.dialogRegistration = true
+    }
   }
 
 };

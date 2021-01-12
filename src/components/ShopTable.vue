@@ -1,30 +1,6 @@
 <template>
   <div>
-    <v-container>
-      <v-row>
-        <v-col>
-          <v-text-field
-              label="Поиск"
-              outlined
-              dense
-          ></v-text-field>
-        </v-col>
-        <v-col
-            sm="1"
-            align="right">
-          <v-btn
-              color="primary"
-              fab
-              small
-              dark
-          >
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
-
-    <template>
+    <SearchFieldAndAddButton/>
       <v-data-table
           :headers="headers"
           :items="items"
@@ -44,20 +20,37 @@
               color="error"
               @click="deleteItem(item)"
           >
-            DELETE
+            УДАЛИТЬ
           </v-btn>
         </template>
       </v-data-table>
-    </template>
-  </div>
 
+      <v-dialog v-model="dialogDelete" max-width="500px" overlay-color="#CBF1F5">
+        <v-card>
+          <v-card-title class="headline">Вы уверены, что хотите удалить товар?</v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="closeDelete">НЕТ</v-btn>
+            <v-btn color="blue darken-1" text @click="deleteItemConfirm">ДА</v-btn>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+  </div>
 </template>
 
 <script>
+import SearchFieldAndAddButton from "@/components/SearchFieldAndAddButton";
+
 export default {
 name: "ShopTable",
+  components: {SearchFieldAndAddButton
+  },
   data: () => ({
+    dialogDelete: false,
     items:[],
+    editedItem: {},
+    defaultItem: {},
     headers: [
       {
         sortable: false,
@@ -69,30 +62,37 @@ name: "ShopTable",
       {text: 'Действие', value: 'action'}
     ]
   }),
+
   mounted() {
-    const a = new Date().getMilliseconds()
     this.axios
         .get('http://localhost:9000/item')
         .then(response => {this.items = response.data
           console.log(response)
         })
-    const b = new Date().getMilliseconds()
-    console.log('Время ответа - привета ' + (b-a) + ' ms')
   },
+
   methods:{
     deleteItem: function (item){
-      console.log('ВЫВОД')
-      console.log(item)
-
+      this.dialogDelete = true
+      this.editedItem = Object.assign({},item)
+    },
+    closeDelete: function(){
+      this.editedItem = Object.assign({}, this.defaultItem)
+      this.dialogDelete = false
+    },
+    deleteItemConfirm: function(){
       this.axios
-          .post('http://localhost:9000/deleteItem', item)
-          .then(response => this.items = response.data)
+          .post('http://localhost:9000/deleteItem', this.editedItem)
+          .then(response => {
+            this.items = response.data
+          })
           .catch(error => console.log(error))
+      this.closeDelete()
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>
