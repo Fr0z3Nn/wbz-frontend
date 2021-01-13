@@ -1,26 +1,27 @@
 <template>
   <v-app>
-<div>
+    <div>
 
-<ToolBarAndLeftMenu/>
-  <ShopTable/>
+      <ToolBarAndLeftMenu/>
+      <ShopTable/>
 
-</div>
+    </div>
   </v-app>
 </template>
 
 <script>
-import ToolBarAndLeftMenu from './components/ToolBarAndLeftMenu';
+import ToolBarAndLeftMenu from '../components/ToolBarAndLeftMenu';
 import ShopTable from "@/components/ShopTable";
 
 export default {
-  name: 'App',
+  name: 'ShopPage',
   components: {ToolBarAndLeftMenu,ShopTable
   },
 
   data: () => ({
-   //
+    //
   }),
 
 };
 </script>
+
