@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import ShopPage from '@/views/ShopPage.vue'
-import MainPage from "@/views/MainPage";
-
+import MainPage from "@/views/MainPage.vue";
+import AboutPage from "@/views/AboutPage";
+import CartPage from "@/views/CartPage";
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/index',
+    path: '/',
     name:'main',
     component: MainPage
   },
@@ -17,7 +18,16 @@ const routes = [
     name: 'shop',
     component: ShopPage,
   },
-
+  {
+    path: '/cart',
+    name: 'cart',
+    component: CartPage,
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: AboutPage,
+  },
   /*{
     path: '/about',
     name: 'About',

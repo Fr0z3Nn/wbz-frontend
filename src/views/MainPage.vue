@@ -1,20 +1,16 @@
 <template>
-  <v-app>
-    <div>
 
-      <ToolBarAndLeftMenu/>
+      <h1>ГЛАНАЯ</h1>
 
-    </div>
-  </v-app>
 </template>
 
 <script>
-import ToolBarAndLeftMenu from '../components/ToolBarAndLeftMenu'
+
 
 export default {
   name: "MainPage",
   components: {
-    ToolBarAndLeftMenu
+
   }
 };
 </script>
