@@ -3,23 +3,12 @@
   <v-container>
     <v-row>
       <v-col>
-        <v-text-field
-            label="Поиск"
-            outlined
-            dense
-        ></v-text-field>
+        <SearchField/>
       </v-col>
       <v-col
           sm="1"
           align="right">
-        <v-btn
-            color="primary"
-            fab
-            small
-            dark
-        >
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
+        <AddItemButton/>
       </v-col>
     </v-row>
   </v-container>
@@ -27,8 +16,12 @@
 </template>
 
 <script>
+import SearchField from "@/components/SearchField";
+import AddItemButton from "@/components/AddItemButton";
 export default {
-name: "SearchFieldAndAddButton"
+name: "SearchFieldAndAddButton",
+  components:{SearchField,AddItemButton
+  },
 }
 </script>
 

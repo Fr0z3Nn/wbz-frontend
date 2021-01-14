@@ -36,6 +36,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+
   </div>
 </template>
 
@@ -59,7 +60,7 @@ name: "ShopTable",
       { text: 'Название', value: 'name' },
       { text: 'Описание', value: 'description', sortable: false },
       { text: 'Цена', value: 'price' },
-      {text: 'Действие', value: 'action'}
+      {text: 'Действие', value: 'action', sortable: false}
     ]
   }),
 
