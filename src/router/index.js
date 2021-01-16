@@ -4,6 +4,7 @@ import ShopPage from '@/views/ShopPage.vue'
 import MainPage from "@/views/MainPage.vue";
 import AboutPage from "@/views/AboutPage";
 import CartPage from "@/views/CartPage";
+import LoginPage from "@/views/LoginPage";
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/about',
     name: 'about',
     component: AboutPage,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginPage,
   },
   /*{
     path: '/about',
