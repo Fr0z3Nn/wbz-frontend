@@ -8,7 +8,7 @@
           :sort-desc="[false, true]"
           class="elevation-1"
       >
-        <template v-slot:item.image="{ item }">
+        <template v-slot:item.image="{ item }" >
           <v-chip
           >
             <img :src=" item.image ">
@@ -25,7 +25,7 @@
           <v-btn
               depressed
               color="orange"
-              @click="updateItem(item)"
+              @click="editItem(item)"
           >
             Изменить
           </v-btn>
@@ -54,29 +54,24 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field
+                <v-text-field v-model="name"
                     label="Название*"
-                    text="name"
-                    required
-                ></v-text-field>
+                    required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field
+                <v-text-field v-model="description"
                     label="Описание*"
-                    required
-                ></v-text-field>
+                    required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field
+                <v-text-field v-model="price"
                     label="Цена*"
-                    required
-                ></v-text-field>
+                    required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field
+                <v-text-field v-model="image"
                     label="Картинка*"
-                    required
-                ></v-text-field>
+                    required></v-text-field>
               </v-col>
             </v-row>
           </v-container>
@@ -84,8 +79,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="error" text @click="closeEdit">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="dialogEdit = false">Save</v-btn>
+          <v-btn color="error" text @click="closeEdit">Отмена</v-btn>
+          <v-btn color="blue darken-1" text @click="editItemConfirm">Сохранить</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -114,8 +109,12 @@ name: "ShopTable",
       { text: 'Название', value: 'name' },
       { text: 'Описание', value: 'description', sortable: false },
       { text: 'Цена', value: 'price' },
-      {text: '', value: 'action', sortable: false},
-    ]
+      { text: '', value: 'action', sortable: false},
+    ],
+    name: '',
+    description:'',
+    price:'',
+    image:'',
   }),
 
   mounted() {
@@ -144,7 +143,7 @@ name: "ShopTable",
           .catch(error => console.log(error))
       this.closeDelete()
     },
-    updateItem: function (item){
+    editItem: function (item){
       this.dialogEdit = true
       this.editedItem = Object.assign({},item)
     },
@@ -153,13 +152,17 @@ name: "ShopTable",
       this.dialogEdit = false
     },
     editItemConfirm: function(){
+      this.editedItem.name = this.name
+      this.editedItem.description = this.description
+      this.editedItem.price =this.price
+      this.editedItem.image = this.image
       this.axios
           .post('http://localhost:9000/editItem/', this.editedItem)
           .then(response => {
             this.items = response.data
           })
           .catch(error => console.log(error))
-      this.editItemConfirm()
+      this.closeEdit()
     },
   }
 }
