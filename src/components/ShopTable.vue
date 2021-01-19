@@ -1,7 +1,6 @@
 <template>
   <div>
     <SearchFieldAndAddButton/>
-
     <v-card v-for="item in items" :key="item.name"
         class="mx-auto my-12"
         max-width="300"
@@ -31,7 +30,7 @@
             <v-btn
                 color="deep-purple lighten-2"
                 text
-                @click="editItem"
+                @click="editItem(item)"
             >
               Изменить
             </v-btn>
@@ -44,7 +43,7 @@
             <v-btn
                 color="deep-purple lighten-2"
                 text
-                @click="deleteItem"
+                @click="deleteItem(item)"
             >
               Удалить
             </v-btn>
