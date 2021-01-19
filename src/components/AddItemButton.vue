@@ -19,22 +19,22 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field v-model="name"
+                <v-text-field v-model="item.name"
                     label="Название*"
                     required ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field v-model="description"
+                <v-text-field v-model="item.description"
                     label="Описание*"
                     required ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field v-model="price"
+                <v-text-field v-model="item.price"
                     label="Цена*"
                     required ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field v-model="image"
+                <v-text-field v-model="item.image"
                     label="Картинка*"
                     required ></v-text-field>
               </v-col>
@@ -56,40 +56,28 @@
 <script>
 export default {
   name: "AddItemButton",
-  props: [],
   data: () => ({
     item:{
-      id: 0,
       name: '',
       description:'',
       price:'',
       image:''
     },
-    name:'',
-    description:'',
-    price: 0,
-    image:'',
     editedItem: {},
     defaultItem: {},
     dialogAdd: false
   }),
 
   methods: {
-    addItem: function (item) {
+    addItem: function () {
       this.dialogAdd = true
-      console.log(this.item)
-      this.editedItem = Object.assign({}, item)
     },
     closeAdd: function () {
       this.editedItem = Object.assign({}, this.defaultItem)
       this.dialogAdd = false
     },
     addItemConfirm: function(){
-      this.editedItem.name = this.name
-      this.editedItem.description = this.description
-      this.editedItem.price =this.price
-      this.editedItem.image = this.image
-      console.log(this.editedItem)
+      this.editedItem = Object.assign({}, this.item)
       this.axios
           .post('http://localhost:9000/addItem/', this.editedItem)
           .then(response => {
