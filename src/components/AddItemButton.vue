@@ -81,10 +81,13 @@ export default {
       this.axios
           .post('http://localhost:9000/addItem/', this.editedItem)
           .then(response => {
-            this.items = response.data
+            this.sendNewItemsList(response.data)
           })
           .catch(error => console.log(error))
       this.closeAdd()
+    },
+    sendNewItemsList(items){
+      this.$emit('itemListenerFromButton', items)
     }
   }
 }
