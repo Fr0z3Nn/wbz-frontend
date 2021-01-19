@@ -16,8 +16,6 @@
       <v-card-title></v-card-title>
 
       <v-card-text>
-        <v-text-field v-model="description"
-        >{{ item.description }}</v-text-field>
         <v-card-text v-model="price"
         >{{ item.price }}$</v-card-text>
       </v-card-text>
