@@ -2,6 +2,58 @@
   <div>
     <SearchFieldAndAddButton/>
 
+    <v-card v-for="item in items" :key="item.name"
+        class="mx-auto my-12"
+        max-width="300"
+    >
+      <v-card-text v-model="name"
+      >{{ item.name }}</v-card-text>
+
+      <v-img v-model="image"
+          height="300"
+          src="https://f3.mylove.ru/2DUmewzPgj.jpg"
+      ></v-img>
+
+      <v-card-title></v-card-title>
+
+      <v-card-text>
+        <v-text-field v-model="description"
+        >{{ item.description }}</v-text-field>
+        <v-card-text v-model="price"
+        >{{ item.price }}$</v-card-text>
+      </v-card-text>
+
+      <v-divider class="mx-4"></v-divider>
+
+      <v-row>
+        <v-col>
+          <v-card-actions>
+            <v-btn
+                color="deep-purple lighten-2"
+                text
+                @click="editItem"
+            >
+              Изменить
+            </v-btn>
+
+          </v-card-actions>
+        </v-col>
+        <v-col
+            align="right">
+          <v-card-actions>
+            <v-btn
+                color="deep-purple lighten-2"
+                text
+                @click="deleteItem"
+            >
+              Удалить
+            </v-btn>
+
+          </v-card-actions>
+        </v-col>
+
+      </v-row>
+    </v-card>
 
       <v-dialog v-model="dialogDelete" max-width="500px" overlay-color="#CBF1F5">
         <v-card>
@@ -71,16 +123,6 @@ name: "ShopTable",
     items:[],
     editedItem: {},
     defaultItem: {},
-    headers: [
-      {
-        sortable: false,
-        value: 'image',
-      },
-      { text: 'Название', value: 'name' },
-      { text: 'Описание', value: 'description', sortable: false },
-      { text: 'Цена', value: 'price' },
-      { text: '', value: 'action', sortable: false},
-    ],
     name: '',
     description:'',
     price:'',
