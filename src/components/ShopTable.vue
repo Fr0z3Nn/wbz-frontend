@@ -1,6 +1,7 @@
 <template>
   <div>
     <SearchFieldAndAddButton @itemListenerFromPanel="changeAfterAdd"/>
+    <v-row>
     <v-card v-for="item in items" :key="item.name"
             class="mx-auto my-12"
             max-width="300"
@@ -53,7 +54,7 @@
 
       </v-row>
     </v-card>
-
+    </v-row>
     <v-dialog v-model="dialogDelete" max-width="500px" overlay-color="#CBF1F5">
       <v-card>
         <v-card-title class="headline">Вы уверены, что хотите удалить товар?</v-card-title>
