@@ -9,7 +9,7 @@
 
 
       <v-btn icon>
-        <v-icon color="black" @click="dialogRegistration = true">mdi-account-circle</v-icon>
+        <v-icon color="black" @click="dialogAuthorization = true">mdi-account-circle</v-icon>
       </v-btn>
 
       <v-btn icon @click="$vuetify.theme.dark =!$vuetify.theme.dark">
@@ -77,15 +77,83 @@
             <v-btn
                 color="blue darken-1"
                 text
+                @click="switchDialog"
+            >
+              Войти
+            </v-btn>
+            <v-btn
+                color="blue darken-1"
+                text
                 @click="dialogRegistration = false"
             >
-              Войти / Зарегистрироваться
+              Зарегистрироваться
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
     </div>
 
+    <!--ДИАЛОГ АВТОРИЗАЦИИ-->
+    <div>
+      <v-dialog
+          v-model="dialogAuthorization"
+          temporary
+          max-width="600px"
+      >
+
+        <v-card>
+          <v-card-title>
+            <span class="headline">Авторизация</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                      label="Почта*"
+                      required
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                      label="Пароль*"
+                      type="password"
+                      required
+                  ></v-text-field>
+                </v-col>
+
+
+              </v-row>
+            </v-container>
+            <small>*обьязательные поля</small>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+                color="blue darken-1"
+                text
+                @click="dialogAuthorization = false"
+            >
+              Закрыть
+            </v-btn>
+            <v-btn
+                color="blue darken-1"
+                text
+                @click="switchDialog"
+            >
+              Зарегистрироваться
+            </v-btn>
+            <v-btn
+                color="blue darken-1"
+                text
+                @click="dialogAuthorization = false"
+            >
+              Войти
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
 
     <!--ЛЕВОЕ ВЫПАДАЮЩЕЕ МЕНЮ-->
     <v-navigation-drawer
@@ -154,6 +222,7 @@ export default {
   data: () => ({
     drawer: false,
     dialogRegistration: false,
+    dialogAuthorization: false,
     group: null,
   }),
   components: {
@@ -161,6 +230,10 @@ export default {
   },
 
   methods: {
+    switchDialog: function (){
+      this.dialogRegistration = !this.dialogRegistration
+      this.dialogAuthorization = !this.dialogAuthorization
+    }
   }
 
 
