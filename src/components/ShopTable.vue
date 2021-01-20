@@ -131,7 +131,7 @@ export default {
 
   mounted() {
     this.axios
-        .get('http://localhost:9000/item')
+        .get('http://localhost:9000/api/item/')
         .then(response => {
           this.items = response.data
           console.log(response)
@@ -152,7 +152,7 @@ export default {
     },
     deleteItemConfirm: function () {
       this.axios
-          .post('http://localhost:9000/deleteItem', this.editedItem)
+          .post('http://localhost:9000/api/item/delete/'+this.editedItem.id)
           .then(response => {
             this.items = response.data
           })
@@ -173,9 +173,10 @@ export default {
       this.editedItem.price = this.price
       this.editedItem.image = this.image
       this.axios
-          .post('http://localhost:9000/editItem/', this.editedItem)
+          .post('http://localhost:9000/api/item/edit', this.editedItem)
           .then(response => {
             this.items = response.data
+            console.log(response.data)
           })
           .catch(error => console.log(error))
       this.closeEdit()

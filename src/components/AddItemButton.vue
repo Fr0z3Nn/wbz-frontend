@@ -79,7 +79,7 @@ export default {
     addItemConfirm: function(){
       this.editedItem = Object.assign({}, this.item)
       this.axios
-          .post('http://localhost:9000/addItem/', this.editedItem)
+          .post('http://localhost:9000/api/item/add', this.editedItem)
           .then(response => {
             this.sendNewItemsList(response.data)
           })
