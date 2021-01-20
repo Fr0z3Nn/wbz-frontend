@@ -2,15 +2,15 @@
   <div>
     <SearchFieldAndAddButton @itemListenerFromPanel="changeAfterAdd"/>
     <v-row>
-    <v-card v-for="item in items" :key="item.name"
+    <v-card v-for="item in items" :key="item.id"
             class="mx-auto my-12"
             max-width="300"
     >
-      <v-card-text v-model="name"
+      <v-card-text v-model="item.name"
       >{{ item.name }}
       </v-card-text>
 
-      <v-img v-model="image"
+      <v-img v-model="item.image"
              height="300"
              src="https://f3.mylove.ru/2DUmewzPgj.jpg"
       ></v-img>
@@ -18,7 +18,7 @@
       <v-card-title></v-card-title>
 
       <v-card-text>
-        <v-card-text v-model="price"
+        <v-card-text v-model="item.price"
         >{{ item.price }}$
         </v-card-text>
       </v-card-text>
@@ -67,7 +67,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogEdit" persistent max-width="600px">
+    <v-dialog v-model="dialogEdit" persistent max-width="600px" >
       <v-card>
         <v-card-title>
           <span class="headline">Изменить товар:</span>
@@ -76,22 +76,22 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field v-model="name"
+                <v-text-field v-model="item.name"
                               label="Название*"
                               required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field v-model="description"
+                <v-text-field v-model="item.description"
                               label="Описание*"
                               required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field v-model="price"
+                <v-text-field v-model="item.price"
                               label="Цена*"
                               required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field v-model="image"
+                <v-text-field v-model="item.image"
                               label="Картинка*"
                               required></v-text-field>
               </v-col>
@@ -122,12 +122,13 @@ export default {
     dialogDelete: false,
     dialogEdit: false,
     items: [],
-    editedItem: {},
     defaultItem: {},
-    name: '',
-    description: '',
-    price: '',
-    image: '',
+    item:{
+      name: '',
+      description: '',
+      price: '',
+      image: ''
+    }
   }),
 
   mounted() {
@@ -162,19 +163,15 @@ export default {
     },
     editItem: function (item) {
       this.dialogEdit = true
-      this.editedItem = Object.assign({}, item)
+      this.item = Object.assign({}, item)
     },
     closeEdit: function () {
-      this.editedItem = Object.assign({}, this.defaultItem)
+      this.item = Object.assign({}, this.defaultItem)
       this.dialogEdit = false
     },
     editItemConfirm: function () {
-      this.editedItem.name = this.name
-      this.editedItem.description = this.description
-      this.editedItem.price = this.price
-      this.editedItem.image = this.image
       this.axios
-          .post('http://localhost:9000/api/item/edit', this.editedItem)
+          .post('http://localhost:9000/api/item/edit', this.item)
           .then(response => {
             this.items = response.data
             console.log(response.data)
