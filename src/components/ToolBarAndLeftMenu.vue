@@ -5,6 +5,7 @@
         prominent
         src="https://i.ibb.co/DVDjNkn/ledentsy-konfety-sladkoe-136061-1920x1080.jpg"
     >
+
       <v-app-bar-nav-icon @click="drawer = true" style="color: black"></v-app-bar-nav-icon>
 
 

@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <v-col>
-          <SearchField/>
+          <SearchField @searchResultFromField = "sendNewItemsListFromSearch"/>
         </v-col>
         <v-col
             sm="1"
@@ -30,6 +30,9 @@ export default {
   methods: {
     sendNewItemsList: function (items) {
       this.$emit('itemListenerFromPanel', items)
+    },
+    sendNewItemsListFromSearch: function (text) {
+      this.$emit('itemSearchFromPanel', text)
     }
   }
 }

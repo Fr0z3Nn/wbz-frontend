@@ -1,59 +1,61 @@
 <template>
   <div>
-    <SearchFieldAndAddButton @itemListenerFromPanel="changeAfterAdd"/>
+    <SearchFieldAndAddButton @itemListenerFromPanel="changeAfterAdd" @itemSearchFromPanel="changeAfterSearch"/>
     <v-row>
-    <v-card v-for="item in items" :key="item.id"
-            class="mx-auto my-12"
-            max-width="300"
-    >
-      <v-card-text v-model="item.name"
-      >{{ item.name }}
-      </v-card-text>
+      <v-card v-for="item in itemsShow" :key="item.id"
+              class="mx-auto my-12"
+              max-width="300"
 
-      <v-img v-model="item.image"
-             height="300"
-             src="https://f3.mylove.ru/2DUmewzPgj.jpg"
-      ></v-img>
+      >
 
-      <v-card-title></v-card-title>
-
-      <v-card-text>
-        <v-card-text v-model="item.price"
-        >{{ item.price }}$
+        <v-card-text v-model="item.name"
+        >{{ item.name }}
         </v-card-text>
-      </v-card-text>
 
-      <v-divider class="mx-4"></v-divider>
+        <v-img v-model="item.image"
+               height="300"
+               src="https://f3.mylove.ru/2DUmewzPgj.jpg"
+        ></v-img>
 
-      <v-row>
-        <v-col>
-          <v-card-actions>
-            <v-btn
-                color="deep-purple lighten-2"
-                text
-                @click="editItem(item)"
-            >
-              Изменить
-            </v-btn>
+        <v-card-title></v-card-title>
 
-          </v-card-actions>
-        </v-col>
-        <v-col
-            align="right">
-          <v-card-actions>
-            <v-btn
-                color="deep-purple lighten-2"
-                text
-                @click="deleteItem(item)"
-            >
-              Удалить
-            </v-btn>
+        <v-card-text>
+          <v-card-text v-model="item.price"
+          >{{ item.price }}$
+          </v-card-text>
+        </v-card-text>
 
-          </v-card-actions>
-        </v-col>
+        <v-divider class="mx-4"></v-divider>
 
-      </v-row>
-    </v-card>
+        <v-row>
+          <v-col>
+            <v-card-actions>
+              <v-btn
+                  color="deep-purple lighten-2"
+                  text
+                  @click="editItem(item)"
+              >
+                Изменить
+              </v-btn>
+
+            </v-card-actions>
+          </v-col>
+          <v-col
+              align="right">
+            <v-card-actions>
+              <v-btn
+                  color="deep-purple lighten-2"
+                  text
+                  @click="deleteItem(item)"
+              >
+                Удалить
+              </v-btn>
+
+            </v-card-actions>
+          </v-col>
+
+        </v-row>
+      </v-card>
     </v-row>
     <v-dialog v-model="dialogDelete" max-width="500px" overlay-color="#CBF1F5">
       <v-card>
@@ -67,7 +69,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogEdit" persistent max-width="600px" >
+    <v-dialog v-model="dialogEdit" persistent max-width="600px">
       <v-card>
         <v-card-title>
           <span class="headline">Изменить товар:</span>
@@ -123,20 +125,27 @@ export default {
     dialogEdit: false,
     items: [],
     defaultItem: {},
-    item:{
+    text:'',
+    item: {
       name: '',
       description: '',
       price: '',
-      image: ''
+      image: '',
     }
   }),
+  computed: {
+    itemsShow() {
+      return this.items.filter(item => item.name.includes(this.text))
+    }
+
+  },
 
   mounted() {
     this.axios
         .get('http://localhost:9000/api/item/')
         .then(response => {
           this.items = response.data
-          console.log(response)
+          this.items.forEach(n => n.show = true)
         })
   },
 
@@ -154,7 +163,7 @@ export default {
     },
     deleteItemConfirm: function () {
       this.axios
-          .post('http://localhost:9000/api/item/delete/'+this.editedItem.id)
+          .post('http://localhost:9000/api/item/delete/' + this.editedItem.id)
           .then(response => {
             this.items = response.data
           })
@@ -174,10 +183,12 @@ export default {
           .post('http://localhost:9000/api/item/edit', this.item)
           .then(response => {
             this.items = response.data
-            console.log(response.data)
           })
           .catch(error => console.log(error))
       this.closeEdit()
+    },
+    changeAfterSearch(text) {
+      this.text = text
     },
   }
 }
