@@ -111,8 +111,9 @@
               <v-row>
                 <v-col cols="12">
                   <v-text-field
-                      label="Почта*"
+                      label="Логин*"
                       required
+                      v-model="user.username"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12">
@@ -120,6 +121,7 @@
                       label="Пароль*"
                       type="password"
                       required
+                      v-model="user.password"
                   ></v-text-field>
                 </v-col>
 
@@ -147,7 +149,8 @@
             <v-btn
                 color="blue darken-1"
                 text
-                @click="dialogAuthorization = false"
+                @click="authorizationUser"
+
             >
               Войти
             </v-btn>
@@ -221,19 +224,27 @@ export default {
   name: "MainPage",
 
   data: () => ({
+    user: {
+      username: '',
+      password: ''
+    },
     drawer: false,
     dialogRegistration: false,
     dialogAuthorization: false,
     group: null,
   }),
-  components: {
-
-  },
+  components: {},
 
   methods: {
-    switchDialog: function (){
+    switchDialog: function () {
       this.dialogRegistration = !this.dialogRegistration
       this.dialogAuthorization = !this.dialogAuthorization
+    },
+    authorizationUser: function (){
+      this.dialogAuthorization = false
+          console.log(this.user);
+      this.axios.post("http://localhost:9000/api/auth/login",this.user)
+      .then(response => console.log(response))
     }
   }
 
