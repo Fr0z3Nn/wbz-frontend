@@ -20,8 +20,11 @@
       <v-spacer/>
       <v-toolbar-title style="color: black">WBZ | ТУПА МАГАЗИН</v-toolbar-title>
       <v-spacer/>
-
+      <v-btn v-if="role === 'ROLE_ADMIN'">
+        {{role}}
+      </v-btn>
     </v-toolbar>
+
 
     <!--ДИАЛОГ РЕГИСТРАЦИИ-->
     <div>
@@ -228,6 +231,8 @@ export default {
       username: '',
       password: ''
     },
+    role:'',
+    admin: '',
     drawer: false,
     dialogRegistration: false,
     dialogAuthorization: false,
@@ -244,7 +249,18 @@ export default {
       this.dialogAuthorization = false
           console.log(this.user);
       this.axios.post("http://localhost:9000/api/auth/login",this.user)
-      .then(response => console.log(response))
+      .then(response => {
+        console.log(response)
+        this.role = response.data.role[1]['name']
+        console.log(this.role)
+
+      })
+    },
+
+    mounted() {
+      if (localStorage.getItem('role') == null) this.admin = false
+      else if (localStorage.getItem('role').indexOf('ROLE_ADMIN') < 0) this.admin = false
+      else this.admin = true
     }
   }
 
