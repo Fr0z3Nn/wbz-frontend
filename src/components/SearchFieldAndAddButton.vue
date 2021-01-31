@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <v-col>
-          <SearchField @searchResultFromField = "sendNewItemsListFromSearch"/>
+          <SearchField @searchResultFromField="sendNewItemsListFromSearch"/>
         </v-col>
         <v-col
             sm="1"
