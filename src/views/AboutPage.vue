@@ -4,7 +4,10 @@
 
 <script>
 export default {
-name: "AboutPage"
+name: "AboutPage",
+  beforeRouteEnter (to, from, next) {
+    next(false)
+  },
 }
 </script>
 
