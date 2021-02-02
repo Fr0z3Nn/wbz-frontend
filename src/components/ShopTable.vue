@@ -28,31 +28,45 @@
         <v-divider class="mx-4"></v-divider>
 
         <v-row>
-          <v-col>
-            <v-card-actions>
-              <v-btn
-                  color="deep-purple lighten-2"
-                  text
-                  @click="editItem(item)"
-              >
-                Изменить
-              </v-btn>
+          <template v-if="user.admin">
+            <v-col>
+              <v-card-actions>
+                <v-btn
+                    color="deep-purple lighten-2"
+                    text
+                    @click="editItem(item)"
+                >
+                  Изменить
+                </v-btn>
 
-            </v-card-actions>
-          </v-col>
-          <v-col
-              align="right">
-            <v-card-actions>
-              <v-btn
-                  color="deep-purple lighten-2"
-                  text
-                  @click="deleteItem(item)"
-              >
-                Удалить
-              </v-btn>
+              </v-card-actions>
+            </v-col>
+            <v-col
+                align="right">
+              <v-card-actions>
+                <v-btn
+                    color="deep-purple lighten-2"
+                    text
+                    @click="deleteItem(item)"
+                >
+                  Удалить
+                </v-btn>
 
-            </v-card-actions>
-          </v-col>
+              </v-card-actions>
+            </v-col>
+          </template>
+              <v-col
+                  align="right">
+                <v-card-actions>
+                  <v-btn
+                      color="deep-purple lighten-2"
+                      text
+                  >
+                    Добавить
+                  </v-btn>
+
+                </v-card-actions>
+              </v-col>
 
         </v-row>
       </v-card>
@@ -121,11 +135,14 @@ export default {
     SearchFieldAndAddButton
   },
   data: () => ({
+    user: {
+      admin: false
+    },
     dialogDelete: false,
     dialogEdit: false,
     items: [],
     defaultItem: {},
-    text:'',
+    text: '',
     item: {
       name: '',
       description: '',
