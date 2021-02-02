@@ -39,6 +39,9 @@ export default new Vuex.Store({
         },
         updateDialogAuthorization(state, value) {
             state.dialogAuthorization = value
+        },
+        updateDialogRegistration(state, value) {
+            state.dialogRegistration = value
         }
     },
     actions: {},

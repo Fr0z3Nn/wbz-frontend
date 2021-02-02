@@ -1,7 +1,7 @@
 <template>
   <div>
       <v-dialog
-          v-model="dialogRegistration"
+          v-model="registration"
           temporary
           max-width="600px"
       >
@@ -59,7 +59,7 @@
             <v-btn
                 color="blue darken-1"
                 text
-                @click="registrationUser"
+                @click="closeRegistration(false)"
             >
               Зарегистрироваться
             </v-btn>
@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     registrationUser: function () {
-      this.dialogRegistration = false
+
     },
     switchDialog: function () {
       this.$store.commit('switchDialogs')
