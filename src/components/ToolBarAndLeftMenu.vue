@@ -10,7 +10,7 @@
 
 
       <v-btn icon>
-        <v-icon color="black" @click="dialogAuthorization = true">mdi-account-circle</v-icon>
+        <v-icon color="black" @click="switchAuthorization">mdi-account-circle</v-icon>
       </v-btn>
 
       <v-btn icon @click="$vuetify.theme.dark =!$vuetify.theme.dark">
@@ -24,140 +24,10 @@
 
 
     <!--ДИАЛОГ РЕГИСТРАЦИИ-->
-    <div>
-      <v-dialog
-          v-model="dialogRegistration"
-          temporary
-          max-width="600px"
-      >
-
-        <v-card>
-          <v-card-title>
-            <span class="headline">Вход / Регистрация</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col
-                    cols="12"
-                >
-                  <v-text-field
-                      label="Имя*"
-                      required
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12">
-                  <v-text-field
-                      label="Почта*"
-                      required
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                      label="Пароль*"
-                      type="password"
-                      required
-                  ></v-text-field>
-                </v-col>
-
-
-              </v-row>
-            </v-container>
-            <small>*обьязательные поля</small>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-                color="blue darken-1"
-                text
-                @click="dialogRegistration = false"
-            >
-              Закрыть
-            </v-btn>
-            <v-btn
-                color="blue darken-1"
-                text
-                @click="switchDialog"
-            >
-              Войти
-            </v-btn>
-            <v-btn
-                color="blue darken-1"
-                text
-                @click="dialogRegistration = false"
-            >
-              Зарегистрироваться
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </div>
+    <DialogRegistration></DialogRegistration>
 
     <!--ДИАЛОГ АВТОРИЗАЦИИ-->
-    <div>
-      <v-dialog
-          v-model="dialogAuthorization"
-          temporary
-          max-width="600px"
-      >
-
-        <v-card>
-          <v-card-title>
-            <span class="headline">Авторизация</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                      label="Логин*"
-                      required
-                      v-model="user.username"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                      label="Пароль*"
-                      type="password"
-                      required
-                      v-model="user.password"
-                  ></v-text-field>
-                </v-col>
-
-
-              </v-row>
-            </v-container>
-            <small>*обьязательные поля</small>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-                color="blue darken-1"
-                text
-                @click="dialogAuthorization = false"
-            >
-              Закрыть
-            </v-btn>
-            <v-btn
-                color="blue darken-1"
-                text
-                @click="switchDialog"
-            >
-              Зарегистрироваться
-            </v-btn>
-            <v-btn
-                color="blue darken-1"
-                text
-                @click="authorizationUser"
-
-            >
-              Войти
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </div>
+    <DialogAuthorization></DialogAuthorization>
 
     <!--ЛЕВОЕ ВЫПАДАЮЩЕЕ МЕНЮ-->
     <v-navigation-drawer
@@ -218,52 +88,25 @@
 
 <script>
 
-let b64DecodeUnicode = str =>
-    decodeURIComponent(
-        Array.prototype.map.call(atob(str), c =>
-            '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-        ).join(''))
 
-let parseJwt = token =>
-    JSON.parse(
-        b64DecodeUnicode(
-            token.split('.')[1].replace('-', '+').replace('_', '/')
-        )
-    )
+import DialogRegistration from "@/components/DialogAuthorization";
+import DialogAuthorization from "@/components/DialogRegistration";
 
 export default {
 
   name: "MainPage",
 
   data: () => ({
-    user: {
-      username: '',
-      password: ''
-    },
     drawer: false,
-    dialogRegistration: false,
-    dialogAuthorization: false,
     group: null,
 
   }),
-  components: {},
+  components: {DialogAuthorization, DialogRegistration},
 
   methods: {
-    switchDialog: function () {
-      this.dialogRegistration = !this.dialogRegistration
-      this.dialogAuthorization = !this.dialogAuthorization
-    },
-    authorizationUser: function (){
-      this.dialogAuthorization = false
-          console.log(this.user);
-      this.axios.post("http://localhost:9000/api/auth/login",this.user)
-      .then(response => {
-        console.log(response.data.token)
-        console.log(parseJwt(response.data.token));
-      })
-    },
-
-
+    switchAuthorization:function (){
+      this.$store.commit('updateDialogAuthorization',true)
+    }
   }
 
 
