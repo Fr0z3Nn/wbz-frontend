@@ -39,7 +39,7 @@
           <v-btn
               color="blue darken-1"
               text
-              @click="closeAuthorization"
+              @click="closeAuthorization(false)"
           >
             Закрыть
           </v-btn>
@@ -66,7 +66,7 @@
 
 <script>
 export default {
-  name: "DialogRegistration",
+  name: "DialogAuthorization",
   data: () => ({
     user: {
       username: '',
@@ -80,7 +80,7 @@ export default {
         return this.$store.state.dialogAuthorization
       },
       set(value){
-        this.$store.commit('updateDialogAuthorization',value)
+        this.closeAuthorization(value)
       }
       },
   },
@@ -95,8 +95,8 @@ export default {
     switchDialog: function () {
       this.$store.commit('switchDialogs')
     },
-    closeAuthorization(){
-      this.$store.commit('updateDialogAuthorization',false)
+    closeAuthorization(value){
+      this.$store.commit('updateDialogAuthorization',value)
     }
 
   }

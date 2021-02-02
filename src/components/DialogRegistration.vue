@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: "DialogAuthorization"
+  name: "DialogRegistration"
 }
 </script>
 
