@@ -73,30 +73,30 @@ export default {
       password: ''
     },
   }),
-  watch: {},
   computed: {
     authorization: {
-      get(){
+      get() {
         return this.$store.state.dialogAuthorization
       },
-      set(value){
+      set(value) {
         this.closeAuthorization(value)
       }
-      },
+    },
   },
   methods: {
     authorizationUser: function () {
+
       this.axios.post("http://localhost:9000/api/auth/login", this.user)
           .then(response => {
-            let roles = this.$store.state.parseJwt(response.data.token).roles;
+            let roles = this.$store.state.parseJwt(response.data.token)["roles"];
             this.$store.commit('checkAdmin', roles)
           })
     },
     switchDialog: function () {
       this.$store.commit('switchDialogs')
     },
-    closeAuthorization(value){
-      this.$store.commit('updateDialogAuthorization',value)
+    closeAuthorization(value) {
+      this.$store.commit('updateDialogAuthorization', value)
     }
 
   }

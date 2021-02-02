@@ -22,7 +22,12 @@ export default new Vuex.Store({
         parseJwt,
         admin: false,
         dialogRegistration: false,
-        dialogAuthorization: false
+        dialogAuthorization: false,
+        user:{
+            username:'',
+            password:'',
+            email:''
+        }
     },
     mutations: {
         checkAdmin(state, roles) {
