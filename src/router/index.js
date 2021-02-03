@@ -5,6 +5,7 @@ import MainPage from "@/views/MainPage.vue";
 import AboutPage from "@/views/AboutPage";
 import CartPage from "@/views/CartPage";
 
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -28,6 +29,7 @@ const routes = [
     name: 'about',
     component: AboutPage,
   },
+
   /*{
     path: '/about',
     name: 'About',

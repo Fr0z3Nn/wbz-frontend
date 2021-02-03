@@ -10,7 +10,7 @@
 
 <script>
 
-import ShopTable from "@/components/ShopTable";
+import ShopTable from "@/components/table/ShopTable";
 
 export default {
   name: 'ShopPage',

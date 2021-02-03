@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ToolBarAndLeftMenu from "@/components/ToolBarAndLeftMenu";
+import ToolBarAndLeftMenu from "@/components/bar_leftmenu/ToolBarAndLeftMenu";
 
 export default {
 name: "App",
