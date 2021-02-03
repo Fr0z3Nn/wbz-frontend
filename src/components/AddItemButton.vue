@@ -6,6 +6,7 @@
         small
         dark
         @click="addItem"
+        v-if="user.admin"
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -62,6 +63,9 @@ export default {
     },
     dialogAddItem(){
       return this.$store.state.dialogAddItem
+    },
+    user(){
+      return this.$store.state.user
     }
   },
   methods: {
