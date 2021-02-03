@@ -140,7 +140,7 @@ export default {
   computed: {
     item: {
       get() {
-        return this.$store.state.editedItem
+        return this.$store.state.item
       },
       set() {
       }

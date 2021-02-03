@@ -35,15 +35,14 @@ export default new Vuex.Store({
         sortedItemsWHAT_SHOW_IN_TABLE_VIEW: {},
         //окно добавления предмета
         dialogAddItem: false,
-        editedItem: {},
-        defaultItem: {},
-        //инфа о предмете
+        //инфа о предмете (промежуточное состояние)
         item: {
             name: '',
             description: '',
             price: '',
             image: ''
         },
+        defaultItem: {},
         //поисковик предметов
         textFieldSearchItem: '',
         //шоптабл элементы
@@ -79,19 +78,19 @@ export default new Vuex.Store({
         },
         prepareDialogToDeleteItem(state, payload) {
             state.dialogToDeleteItem = payload['dialogDelete']
-            state.editedItem = Object.assign({}, payload['itemToDelete'])
+            state.item = Object.assign({}, payload['itemToDelete'])
         },
         closeDialogToDeleteItem(state) {
             state.dialogToDeleteItem = false
-            state.editedItem = Object.assign({}, state.defaultItem)
+            state.item = Object.assign({}, state.defaultItem)
         },
         prepareDialogToEditItem(state, payload) {
             state.dialogToEditItem = payload['dialogEdit']
-            state.editedItem = Object.assign({}, payload['itemToEdit'])
+            state.item = Object.assign({}, payload['itemToEdit'])
         },
         closeDialogToEditItem(state) {
             state.dialogToEditItem = false
-            state.editedItem = Object.assign({}, state.defaultItem)
+            state.item = Object.assign({}, state.defaultItem)
         },
         sortAllItems(state, value) {
             state.sortedItemsWHAT_SHOW_IN_TABLE_VIEW = state.items.filter(item => item.name.includes(value));
@@ -121,13 +120,13 @@ export default new Vuex.Store({
             console.log("РЕГИСТРАЦИЯ ЕЩЕ НЕ РЕАЛИЗОВАНА")
         },
         ADD_ITEM({state}) {
-            state.editedItem = Object.assign({}, state.item)
+            state.item = Object.assign({}, state.item)
             console.log(state.item)
             axios
-                .post('http://localhost:9000/api/item/add', state.editedItem)
+                .post('http://localhost:9000/api/item/add', state.item)
                 .then(response => {
                     state.sortedItemsWHAT_SHOW_IN_TABLE_VIEW = response.data
-                    state.editedItem = Object.assign({}, state.defaultItem)
+                    state.item = Object.assign({}, state.defaultItem)
                 })
                 .catch(error => console.log(error))
         },
@@ -142,7 +141,7 @@ export default new Vuex.Store({
         },
         DELETE_ITEM_CONFIRM({state}) {
             axios
-                .post('http://localhost:9000/api/item/delete/' + state.editedItem['id'])
+                .post('http://localhost:9000/api/item/delete/' + state.item['id'])
                 .then(response => {
                     state.sortedItemsWHAT_SHOW_IN_TABLE_VIEW = response.data
                 })
@@ -150,7 +149,7 @@ export default new Vuex.Store({
         },
         EDIT_ITEM_CONFIRM({state}) {
             axios
-                .post('http://localhost:9000/api/item/edit', state.editedItem)
+                .post('http://localhost:9000/api/item/edit', state.item)
                 .then(response => {
                     state.sortedItemsWHAT_SHOW_IN_TABLE_VIEW = response.data
                 })
