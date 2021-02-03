@@ -6,7 +6,7 @@
         src="https://i.ibb.co/DVDjNkn/ledentsy-konfety-sladkoe-136061-1920x1080.jpg"
     >
 
-      <v-app-bar-nav-icon @click="drawer = true" style="color: black"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="openLeftMenu(true)" style="color: black"></v-app-bar-nav-icon>
 
 
       <v-btn icon>
@@ -93,19 +93,26 @@ import DialogRegistration from "@/components/DialogAuthorization";
 import DialogAuthorization from "@/components/DialogRegistration";
 
 export default {
-
+  components: {DialogAuthorization, DialogRegistration},
   name: "MainPage",
 
-  data: () => ({
-    drawer: false,
-    group: null,
-
-  }),
-  components: {DialogAuthorization, DialogRegistration},
+  computed: {
+    drawer: {
+      get() {
+        return this.$store.state.leftMenuDrawer
+      },
+      set(value) {
+        this.openLeftMenu(value)
+      }
+    }
+  },
 
   methods: {
-    switchAuthorization:function (){
-      this.$store.commit('updateDialogAuthorization',true)
+    switchAuthorization: function () {
+      this.$store.commit('updateDialogAuthorization', true)
+    },
+    openLeftMenu(value) {
+      this.$store.commit('updateLeftMenuDrawer', value)
     }
   }
 

@@ -19,7 +19,10 @@ let parseJwt = token =>
 
 export default new Vuex.Store({
     state: {
+        //функция для парса токена
         parseJwt,
+        //левое меню отрисовка
+        leftMenuDrawer: false,
         //регистрация - авторизация
         dialogRegistration: false,
         dialogAuthorization: false,
@@ -27,22 +30,25 @@ export default new Vuex.Store({
         vBadLoginAlert: false,
         vNewLoginLoading: false,
         //все итемы
-        items:{},
+        items: {},
         //отсортированные итемы
-        sortedItems:{},
+        sortedItemsWHAT_SHOW_IN_TABLE_VIEW: {},
         //окно добавления предмета
         dialogAddItem: false,
-        editedItem:{},
-        defaultItem:{},
+        editedItem: {},
+        defaultItem: {},
         //инфа о предмете
-        item:{
+        item: {
             name: '',
-            description:'',
-            price:'',
-            image:''
+            description: '',
+            price: '',
+            image: ''
         },
         //поисковик предметов
-        textFieldSearchItem:'',
+        textFieldSearchItem: '',
+        //шоптабл элементы
+        dialogToDeleteItem: '',
+        dialogToEditItem: '',
         //инфа о юзере
         user: {
             admin: false,
@@ -65,11 +71,30 @@ export default new Vuex.Store({
         updateDialogRegistration(state, value) {
             state.dialogRegistration = value
         },
-        updateDialogAdd(state, value){
+        updateDialogAdd(state, value) {
             state.dialogAddItem = value
         },
-        sortAllItems(state,value){
-            state.sortedItems = state.items.filter(item => item.name.includes(value));
+        updateLeftMenuDrawer(state, value) {
+            state.leftMenuDrawer = value
+        },
+        prepareDialogToDeleteItem(state, payload) {
+            state.dialogToDeleteItem = payload['dialogDelete']
+            state.editedItem = Object.assign({}, payload['itemToDelete'])
+        },
+        closeDialogToDeleteItem(state) {
+            state.dialogToDeleteItem = false
+            state.editedItem = Object.assign({}, state.defaultItem)
+        },
+        prepareDialogToEditItem(state, payload) {
+            state.dialogToEditItem = payload['dialogEdit']
+            state.editedItem = Object.assign({}, payload['itemToEdit'])
+        },
+        closeDialogToEditItem(state) {
+            state.dialogToEditItem = false
+            state.editedItem = Object.assign({}, state.defaultItem)
+        },
+        sortAllItems(state, value) {
+            state.sortedItemsWHAT_SHOW_IN_TABLE_VIEW = state.items.filter(item => item.name.includes(value));
         }
     },
     actions: {
@@ -92,27 +117,44 @@ export default new Vuex.Store({
                     state.vNewLoginLoading = false
                 })
         },
-        REGISTRATION_USER(){
+        REGISTRATION_USER() {
             console.log("РЕГИСТРАЦИЯ ЕЩЕ НЕ РЕАЛИЗОВАНА")
         },
-        ADD_ITEM({state}){
+        ADD_ITEM({state}) {
             state.editedItem = Object.assign({}, state.item)
             console.log(state.item)
             axios
                 .post('http://localhost:9000/api/item/add', state.editedItem)
                 .then(response => {
-                    state.sortedItems = response.data
+                    state.sortedItemsWHAT_SHOW_IN_TABLE_VIEW = response.data
+                    state.editedItem = Object.assign({}, state.defaultItem)
                 })
                 .catch(error => console.log(error))
         },
-        LOADING_ITEMS({state}){
+        LOADING_ITEMS({state}) {
             axios
                 .get('http://localhost:9000/api/item/')
                 .then(response => {
                     state.items = response.data
                     state.items.forEach(n => n.show = true)
-                    state.sortedItems  = state.items
+                    state.sortedItemsWHAT_SHOW_IN_TABLE_VIEW = state.items
                 })
+        },
+        DELETE_ITEM_CONFIRM({state}) {
+            axios
+                .post('http://localhost:9000/api/item/delete/' + state.editedItem['id'])
+                .then(response => {
+                    state.sortedItemsWHAT_SHOW_IN_TABLE_VIEW = response.data
+                })
+                .catch(error => console.log(error))
+        },
+        EDIT_ITEM_CONFIRM({state}) {
+            axios
+                .post('http://localhost:9000/api/item/edit', state.editedItem)
+                .then(response => {
+                    state.sortedItemsWHAT_SHOW_IN_TABLE_VIEW = response.data
+                })
+                .catch(error => console.log(error))
         }
     },
     modules: {},

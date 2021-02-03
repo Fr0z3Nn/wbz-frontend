@@ -3,12 +3,12 @@
     <v-container>
       <v-row>
         <v-col>
-          <SearchField @searchResultFromField="sendNewItemsListFromSearch"/>
+          <SearchField/>
         </v-col>
         <v-col
             sm="1"
             align="right">
-          <AddItemButton @itemListenerFromButton="sendNewItemsList"/>
+          <AddItemButton/>
         </v-col>
       </v-row>
     </v-container>
@@ -24,17 +24,6 @@ export default {
   components: {
     SearchField, AddItemButton
   },
-  data: () => ({
-    items: []
-  }),
-  methods: {
-    sendNewItemsList: function (items) {
-      this.$emit('itemListenerFromPanel', items)
-    },
-    sendNewItemsListFromSearch: function (text) {
-      this.$emit('itemSearchFromPanel', text)
-    }
-  }
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SearchFieldAndAddButton @itemListenerFromPanel="changeAfterAdd" @itemSearchFromPanel="changeAfterSearch"/>
+    <SearchFieldAndAddButton/>
     <v-row>
       <v-card v-for="item in itemsShow" :key="item.id"
               class="mx-auto my-12"
@@ -69,7 +69,7 @@
         </v-row>
       </v-card>
     </v-row>
-    <v-dialog v-model="dialogDelete" max-width="500px" overlay-color="#CBF1F5">
+    <v-dialog v-model="deleteDialog" max-width="500px" overlay-color="#CBF1F5">
       <v-card>
         <v-card-title class="headline">Вы уверены, что хотите удалить товар?</v-card-title>
         <v-card-actions>
@@ -81,7 +81,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogEdit" persistent max-width="600px">
+    <v-dialog v-model="editDialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
           <span class="headline">Изменить товар:</span>
@@ -133,7 +133,6 @@ export default {
     SearchFieldAndAddButton
   },
   data: () => ({
-    dialogDelete: false,
     dialogEdit: false,
     defaultItem: {},
     text: '',
@@ -141,17 +140,23 @@ export default {
   computed: {
     item: {
       get() {
-        return this.$store.state.item
+        return this.$store.state.editedItem
       },
       set() {
       }
     },
     itemsShow() {
-      return this.$store.state.sortedItems
+      return this.$store.state.sortedItemsWHAT_SHOW_IN_TABLE_VIEW
     },
     user() {
       return this.$store.state.user
     },
+    deleteDialog(){
+      return this.$store.state.dialogToDeleteItem
+    },
+    editDialog(){
+      return this.$store.state.dialogToEditItem
+    }
   },
 
   watch: {
@@ -165,45 +170,31 @@ export default {
   },
 
   methods: {
-    changeAfterAdd(items) {
-      this.items = items
-    },
     deleteItem: function (item) {
-      this.dialogDelete = true
-      this.editedItem = Object.assign({}, item)
+      this.$store.commit('prepareDialogToDeleteItem', {
+        dialogDelete: true,
+        itemToDelete: item
+      })
     },
     closeDelete: function () {
-      this.editedItem = Object.assign({}, this.defaultItem)
-      this.dialogDelete = false
+      this.$store.commit('closeDialogToDeleteItem')
     },
     deleteItemConfirm: function () {
-      this.axios
-          .post('http://localhost:9000/api/item/delete/' + this.editedItem.id)
-          .then(response => {
-            this.items = response.data
-          })
-          .catch(error => console.log(error))
+      this.$store.dispatch('DELETE_ITEM_CONFIRM')
       this.closeDelete()
     },
     editItem: function (item) {
-      this.dialogEdit = true
-      this.item = Object.assign({}, item)
+      this.$store.commit('prepareDialogToEditItem',{
+        dialogEdit: true,
+        itemToEdit: item
+      })
     },
     closeEdit: function () {
-      this.item = Object.assign({}, this.defaultItem)
-      this.dialogEdit = false
+      this.$store.commit('closeDialogToEditItem')
     },
     editItemConfirm: function () {
-      this.axios
-          .post('http://localhost:9000/api/item/edit', this.item)
-          .then(response => {
-            this.items = response.data
-          })
-          .catch(error => console.log(error))
+      this.$store.dispatch('EDIT_ITEM_CONFIRM')
       this.closeEdit()
-    },
-    changeAfterSearch(text) {
-      this.text = text
     },
   }
 }
