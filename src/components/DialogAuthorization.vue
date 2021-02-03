@@ -6,10 +6,14 @@
         max-width="600px"
     >
 
-      <v-card>
+      <v-card
+      :loading="vLoginLoading">
         <v-card-title>
           <span class="headline">Авторизация</span>
         </v-card-title>
+        <v-alert type="error" v-if="vLoginAlert">
+          Ошибка - введите верный логин или пароль.
+        </v-alert>
         <v-card-text>
           <v-container>
             <v-row>
@@ -28,7 +32,6 @@
                     v-model="user.password"
                 ></v-text-field>
               </v-col>
-
 
             </v-row>
           </v-container>
@@ -54,7 +57,6 @@
               color="blue darken-1"
               text
               @click="authorizationUser"
-
           >
             Войти
           </v-btn>
@@ -65,14 +67,9 @@
 </template>
 
 <script>
+
 export default {
   name: "DialogAuthorization",
-  data: () => ({
-    user: {
-      username: '',
-      password: ''
-    },
-  }),
   computed: {
     authorization: {
       get() {
@@ -82,15 +79,20 @@ export default {
         this.closeAuthorization(value)
       }
     },
+    user() {
+      return this.$store.state.user
+    },
+    vLoginAlert(){
+      return this.$store.state.vBadLoginAlert
+    },
+    vLoginLoading(){
+      return this.$store.state.vNewLoginLoading
+    }
+
   },
   methods: {
     authorizationUser: function () {
-
-      this.axios.post("http://localhost:9000/api/auth/login", this.user)
-          .then(response => {
-            let roles = this.$store.state.parseJwt(response.data.token)["roles"];
-            this.$store.commit('checkAdmin', roles)
-          })
+      this.$store.dispatch('AUTHORIZATION_USER')
     },
     switchDialog: function () {
       this.$store.commit('switchDialogs')

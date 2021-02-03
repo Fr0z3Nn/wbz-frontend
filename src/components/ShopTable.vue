@@ -28,46 +28,44 @@
         <v-divider class="mx-4"></v-divider>
 
         <v-row>
-          <template v-if="user.admin">
-            <v-col>
-              <v-card-actions>
-                <v-btn
-                    color="deep-purple lighten-2"
-                    text
-                    @click="editItem(item)"
-                >
-                  Изменить
-                </v-btn>
+          <v-col v-if="user.admin">
+            <v-card-actions>
+              <v-btn
+                  color="deep-purple lighten-2"
+                  text
+                  @click="editItem(item)"
+              >
+                Изменить
+              </v-btn>
 
-              </v-card-actions>
-            </v-col>
-            <v-col
-                align="right">
-              <v-card-actions>
-                <v-btn
-                    color="deep-purple lighten-2"
-                    text
-                    @click="deleteItem(item)"
-                >
-                  Удалить
-                </v-btn>
+            </v-card-actions>
+          </v-col>
+          <v-col
+              align="right"
+              v-if="user.admin">
+            <v-card-actions>
+              <v-btn
+                  color="deep-purple lighten-2"
+                  text
+                  @click="deleteItem(item)"
+              >
+                Удалить
+              </v-btn>
 
-              </v-card-actions>
-            </v-col>
-          </template>
-              <v-col
-                  align="right">
-                <v-card-actions>
-                  <v-btn
-                      color="deep-purple lighten-2"
-                      text
-                  >
-                    Добавить
-                  </v-btn>
+            </v-card-actions>
+          </v-col>
+          <v-col
+              v-if="!user.admin">
+            <v-card-actions>
+              <v-btn
+                  color="deep-purple lighten-2"
+                  text
+              >
+                В КОРЗИНУ
+              </v-btn>
 
-                </v-card-actions>
-              </v-col>
-
+            </v-card-actions>
+          </v-col>
         </v-row>
       </v-card>
     </v-row>
@@ -135,9 +133,6 @@ export default {
     SearchFieldAndAddButton
   },
   data: () => ({
-    user: {
-      admin: false
-    },
     dialogDelete: false,
     dialogEdit: false,
     items: [],
@@ -153,8 +148,10 @@ export default {
   computed: {
     itemsShow() {
       return this.items.filter(item => item.name.includes(this.text))
-    }
-
+    },
+    user() {
+      return this.$store.state.user
+    },
   },
 
   mounted() {

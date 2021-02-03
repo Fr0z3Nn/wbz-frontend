@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from "axios";
 
 Vue.use(Vuex)
 
@@ -16,22 +17,23 @@ let parseJwt = token =>
         )
     )
 
-
 export default new Vuex.Store({
     state: {
         parseJwt,
-        admin: false,
         dialogRegistration: false,
         dialogAuthorization: false,
-        user:{
-            username:'',
-            password:'',
-            email:''
+        vBadLoginAlert: false,
+        vNewLoginLoading: false,
+        user: {
+            admin: false,
+            username: 'testuser',
+            password: '12345',
+            email: ''
         }
     },
     mutations: {
         checkAdmin(state, roles) {
-            state.admin = roles.includes("ROLE_ADMIN")
+            state.user.admin = roles.includes("ROLE_ADMIN")
         },
         switchDialogs(state) {
             state.dialogRegistration = !state.dialogRegistration
@@ -39,9 +41,35 @@ export default new Vuex.Store({
         },
         updateDialogAuthorization(state, value) {
             state.dialogAuthorization = value
+        },
+        updateDialogRegistration(state, value) {
+            state.dialogRegistration = value
+        },
+    },
+    actions: {
+        AUTHORIZATION_USER({state, commit}) {
+            state.vNewLoginLoading = true
+            axios.post("http://localhost:9000/api/auth/login", {
+                username: state.user['username'],
+                password: state.user['password']
+            })
+                .then(response => {
+                    let roles = state.parseJwt(response.data.token)["roles"];
+                    commit('checkAdmin', roles)
+                    state.dialogAuthorization = false
+                    state.vBadLoginAlert = false;
+                    state.vNewLoginLoading = false
+                })
+                .catch(error => {
+                    console.log("ОШИБОЧКА\n" + error)
+                    state.vBadLoginAlert = true
+                    state.vNewLoginLoading = false
+                })
+        },
+        REGISTRATION_USER(){
+            console.log("РЕГИСТРАЦИЯ ЕЩЕ НЕ РЕАЛИЗОВАНА")
         }
     },
-    actions: {},
     modules: {},
 
 })
