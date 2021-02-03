@@ -135,32 +135,33 @@ export default {
   data: () => ({
     dialogDelete: false,
     dialogEdit: false,
-    items: [],
     defaultItem: {},
     text: '',
-    item: {
-      name: '',
-      description: '',
-      price: '',
-      image: '',
-    }
   }),
   computed: {
+    item: {
+      get() {
+        return this.$store.state.item
+      },
+      set() {
+      }
+    },
     itemsShow() {
-      return this.items.filter(item => item.name.includes(this.text))
+      return this.$store.state.sortedItems
     },
     user() {
       return this.$store.state.user
     },
   },
 
+  watch: {
+    text() {
+      this.$store.commit('sortAllItems', this.text)
+    }
+  },
+
   mounted() {
-    this.axios
-        .get('http://localhost:9000/api/item/')
-        .then(response => {
-          this.items = response.data
-          this.items.forEach(n => n.show = true)
-        })
+    this.$store.dispatch('LOADING_ITEMS')
   },
 
   methods: {

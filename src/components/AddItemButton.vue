@@ -5,12 +5,12 @@
         fab
         small
         dark
-        @click="addItem(item)"
+        @click="addItem"
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
 
-    <v-dialog v-model="dialogAdd" persistent max-width="600px" >
+    <v-dialog v-model="dialogAddItem" persistent max-width="600px" >
       <v-card>
         <v-card-title>
           <span class="headline">Новый товар:</span>
@@ -56,39 +56,25 @@
 <script>
 export default {
   name: "AddItemButton",
-  data: () => ({
-    item:{
-      name: '',
-      description:'',
-      price:'',
-      image:''
+  computed:{
+    item(){
+      return this.$store.state.item
     },
-    editedItem: {},
-    defaultItem: {},
-    dialogAdd: false
-  }),
-
+    dialogAddItem(){
+      return this.$store.state.dialogAddItem
+    }
+  },
   methods: {
     addItem: function () {
-      this.dialogAdd = true
+      this.$store.commit('updateDialogAdd', true)
     },
     closeAdd: function () {
-      this.editedItem = Object.assign({}, this.defaultItem)
-      this.dialogAdd = false
+      this.$store.commit('updateDialogAdd', false)
     },
     addItemConfirm: function(){
-      this.editedItem = Object.assign({}, this.item)
-      this.axios
-          .post('http://localhost:9000/api/item/add', this.editedItem)
-          .then(response => {
-            this.sendNewItemsList(response.data)
-          })
-          .catch(error => console.log(error))
+      this.$store.dispatch('ADD_ITEM')
       this.closeAdd()
     },
-    sendNewItemsList(items){
-      this.$emit('itemListenerFromButton', items)
-    }
   }
 }
 </script>

@@ -4,7 +4,7 @@
         label="Поиск"
         outlined
         dense
-        v-model="text"
+        v-model="search"
     ></v-text-field>
   </div>
 </template>
@@ -12,25 +12,14 @@
 <script>
 export default {
   name: "SearchFieldInShop",
-  data: () => ({
-    text: '',
-  }),
-  watch:{
-    text: function (){
-      this.sendItemsAfterSearch(this.text)
-    }
-  },
-  methods: {
-    /*findItem: function () {
-      this.axios
-          .post('http://localhost:9000/api/item/search/' + this.text)
-          .then(response => {
-           this.sendItemsAfterSearch( response.data)
-          })
-          .catch(error => console.log(error))
-    },*/
-    sendItemsAfterSearch: function (text){
-      this.$emit('searchResultFromField', text)
+  computed:{
+    search:{
+      get(){
+        return this.$store.state.textFieldSearchItem
+      },
+      set(text){
+        this.$store.commit('sortAllItems',text)
+      }
     }
   }
 }
