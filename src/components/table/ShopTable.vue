@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import SearchFieldAndAddButton from "@/components/SearchFieldAndAddButton";
+import SearchFieldAndAddButton from "@/components/search_add/SearchFieldAndAddButton";
 
 export default {
   name: "ShopTable",

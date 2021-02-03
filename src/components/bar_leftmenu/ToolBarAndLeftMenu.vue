@@ -38,9 +38,9 @@
 <script>
 
 
-import DialogRegistration from "@/components/DialogAuthorization";
-import DialogAuthorization from "@/components/DialogRegistration";
-import LeftMenu from "@/components/LeftMenu";
+import DialogRegistration from "@/components/auth/DialogAuthorization";
+import DialogAuthorization from "@/components/auth/DialogRegistration";
+import LeftMenu from "@/components/bar_leftmenu/LeftMenu";
 
 export default {
   components: {LeftMenu, DialogAuthorization, DialogRegistration},

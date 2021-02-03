@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import SearchField from "@/components/SearchField";
-import AddItemButton from "@/components/AddItemButton";
+import SearchField from "@/components/search_add/SearchField";
+import AddItemButton from "@/components/search_add/AddItemButton";
 
 export default {
   name: "SearchFieldAndAddButton",
