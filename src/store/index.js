@@ -116,8 +116,17 @@ export default new Vuex.Store({
                     state.vNewLoginLoading = false
                 })
         },
-        REGISTRATION_USER() {
-            console.log("РЕГИСТРАЦИЯ ЕЩЕ НЕ РЕАЛИЗОВАНА")
+        REGISTRATION_USER({state}) {
+            axios.post("http://localhost:9000/api/register", {
+                    username: state.user['username'],
+                    password: state.user['password'],
+                    email: state.user['email']
+            })
+                .then(response => {
+                    state.user = response.data
+                    state.dialogRegistration = false
+                })
+            console.log()
         },
         ADD_ITEM({state}) {
             state.item = Object.assign({}, state.item)
