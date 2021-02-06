@@ -125,8 +125,9 @@ export default new Vuex.Store({
                 .then(response => {
                     state.user = response.data
                     state.dialogRegistration = false
+                    console.log('отработал регистрейшен')
                 })
-            console.log()
+
         },
         ADD_ITEM({state}) {
             state.item = Object.assign({}, state.item)
