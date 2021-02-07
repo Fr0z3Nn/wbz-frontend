@@ -127,7 +127,6 @@ export default new Vuex.Store({
                     state.dialogRegistration = false
                     console.log('отработал регистрейшен')
                 })
-
         },
         ADD_ITEM({state}) {
             state.item = Object.assign({}, state.item)
