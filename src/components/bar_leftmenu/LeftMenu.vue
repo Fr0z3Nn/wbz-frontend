@@ -23,18 +23,18 @@
             <img src="https://yt3.ggpht.com/ytc/AAUvwnhEP6kqF4b1lDgYuwv9AsrcxO_Si95dcagC_8tw2g=s900-c-k-c0x00ffffff-no-rj">
           </v-avatar>
         </v-list-item>
-        <v-list-item to="/user{id}">
+        <v-list-item class="mt-8" to="/user{id}">
           <v-list-item-icon>
             <v-icon>mdi-account-edit</v-icon>
           </v-list-item-icon>
-          <v-list-item-content>Username</v-list-item-content>
+          <v-list-item-title>Username</v-list-item-title>
         </v-list-item>
         <v-list-item
         >
           <v-list-item-icon>
             <v-icon>mdi-exit-run</v-icon>
           </v-list-item-icon>
-          <v-list-item-content>Выйти</v-list-item-content>
+          <v-list-item-title>Выйти</v-list-item-title>
         </v-list-item>
 
         <v-list-item
